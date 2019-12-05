@@ -28,27 +28,29 @@ AllowedActions = ['both', 'publish', 'subscribe']
 # Start the LocalProxy for secure Tunnelling
 def startTunnelProxyCallback(client, userdata, message):
 
-    print("Received message on topic {}", message.topic)
-    print("Message payload: {}", message.payload)
+    print("Received message on topic {}".format(message.topic))
+    print("Message payload: {}".format(message.payload))
 
-    if not message.payload['clientAccessToken']:
+    payload = json.loads(message.payload)
+
+    if not payload['clientAccessToken']:
         print("No client access token specified in message")
         return
     
-    if not message.payload['clientMode'] == 'destination':
+    if not payload['clientMode'] == 'destination':
         print("Invalid client mode.")
         return
 
-    if not message.payload['services'][0] == 'SSH':
+    if not payload['services'][0] == 'SSH':
         print("Invalid service specified. Only SSH is supported.")
         return
 
-    if not message.payload['region']:
+    if not payload['region']:
         print("No region specified.")
         return
 
-    clientAccessToken = message.payload['clientAccessToken']
-    region = message.payload['region']
+    clientAccessToken = payload['clientAccessToken']
+    region = payload['region']
 
     try:
         subprocess.run(['localproxy', 
@@ -140,9 +142,10 @@ myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 myAWSIoTMQTTClient.connect()
 print('Connected to AWS IoT')
 myAWSIoTMQTTClient.subscribe(tunnelTopic, 1, startTunnelProxyCallback)
-print('Subscribed to topic %s', tunnelTopic)
+print('Subscribed to topic {}'.format(tunnelTopic))
 time.sleep(2)
 
 # Run agent forever.
-while True: 
+while True:
+    time.sleep(1)
     pass
