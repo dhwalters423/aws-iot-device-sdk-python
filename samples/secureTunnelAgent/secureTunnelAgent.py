@@ -144,3 +144,7 @@ print('Connected to AWS IoT')
 myAWSIoTMQTTClient.subscribe(tunnelTopic, 1, startTunnelProxyCallback)
 print('Subscribed to topic %s', tunnelTopic)
 time.sleep(2)
+
+# Run agent forever.
+while True: 
+    pass
