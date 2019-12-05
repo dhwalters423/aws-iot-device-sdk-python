@@ -75,8 +75,6 @@ parser.add_argument("-n", "--thingname", action="store", dest="thingName", help=
 parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
                     help="Operation modes: %s"%str(AllowedActions))
 
-parser.add_argument("-n", "--thingname", action="store", dest="thingName", help="ThingName registered on AWS IoT")
-
 args = parser.parse_args()
 host = args.host
 rootCAPath = args.rootCAPath
